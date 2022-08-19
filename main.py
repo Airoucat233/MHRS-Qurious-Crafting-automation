@@ -4,18 +4,19 @@ import time
 import tkinter as tk
 import pydirectinput
 from pynput.keyboard import Listener, Key,KeyCode
-
+pydirectinput.PAUSE = 0.05
 record_key=[]
 config = {
     "shortcut_keys": {
         "alt_l+a":{"action":[["up","up","space","right","space","down","space","space"]],"count":True},
         "alt_l+s":{"action":[['left','space','left','space','space']]},
         "alt_l+w":{"action":[['space', 'left', 'space', 'space','space']]},
+        "alt_l+d":{"action":"reset"},
         "shift_r+esc":{"action":"stop"},
 
         "alt_l+r":{"action":[
-                ['up', 'up', 'space', 'right', 'space', 'down', 'space', 'space'],['space', 'left', 'space', 'space','space']
-            ],"delay":0.5
+                ['up', 'up', 'space', 'right', 'space', 'down', 'space', 'space'],['left','space','left','space','space']
+            ],"delay":0.4
         }
     }
 }
@@ -23,7 +24,8 @@ config = {
 def log(e):
     log_str.set('error:'+str(e))
 
-def init(config):
+def init():
+    global config
     try:
         if not os.path.exists('./config.json'):
             with open('./config.json', 'w') as f:
@@ -33,9 +35,10 @@ def init(config):
     except Exception as e:
         log('读取配置文件失败,使用默认配置')
 def action_chains(keys_list:list[list],delay):
-    for keys in keys_list:
+    for index,keys in enumerate(keys_list):
         pydirectinput.press(keys)
-        time.sleep(delay)
+        if index < len(keys_list)-1:
+            time.sleep(delay)
 
 def press(key):
     global record_key, t
@@ -50,28 +53,34 @@ def press(key):
         for hotkey in key_map.keys():
             keys = hotkey.split('+')
             if len(keys)== len(record_key) and all(k in record_key for k in keys):
-                if key_map.get(hotkey).get("action") == 'stop':
-                    switch_text.set('开启')
-                    record_key = []
-                    return False
-                delay = key_map.get(hotkey).get("delay")
-                count = key_map.get(hotkey).get("count")
                 action = key_map.get(hotkey).get("action")
-                if delay:
-                    try:
-                        repeat_time = int(enrty.get())
-                        for i in range(repeat_time):
-                            action_chains(action,delay)
-                    except Exception as e:
-                        log(e)
+                if isinstance(action,str):
+                    if action == 'stop':
+                        switch_text.set('开启')
                         record_key = []
-                        break
-                else:
-                    action_chains(key_map.get(hotkey).get("action"), 0)
-                    if count:
-                        label_text.set(int(label_text.get()) + 1)
-                record_key = []
-                break
+                        return False
+                    elif action == 'reset':
+                        count_reset()
+                        record_key = []
+                elif isinstance(action,list):
+                    delay = key_map.get(hotkey).get("delay")
+                    count = key_map.get(hotkey).get("count")
+                    if delay:
+                        try:
+                            repeat_time = int(enrty.get())
+                            for i in range(repeat_time):
+                                action_chains(action,delay)
+                                time.sleep(0.05)
+                        except Exception as e:
+                            log(e)
+                            record_key = []
+                            break
+                    else:
+                        action_chains(action, 0)
+                        if count:
+                            count_increase()
+                    record_key = []
+                    break
 
 def release(key):
     if isinstance(key,KeyCode):
@@ -95,7 +104,10 @@ def switch_controller():
     else:
         t.stop()
         switch_text.set('开启')
-def count_controller():
+def count_increase():
+    label_text.set(int(label_text.get()) + 1)
+    enrty_text.set(int(label_text.get()) - 1)
+def count_reset():
     label_text.set(0)
 
 if __name__=='__main__':
@@ -107,15 +119,16 @@ if __name__=='__main__':
     switch_text = tk.StringVar()
     log_str = tk.StringVar()
     label_text = tk.StringVar(value=0)
+    enrty_text = tk.StringVar(value=0)
     switch_text.set('开启')
 
     switch_btn=tk.Button(app,textvariable=switch_text,width=10,height=2,command=switch_controller)
-    count_btn=tk.Button(app, textvariable=tk.StringVar(value='重新计数(ALT+D)'), width=10, height=2, command=count_controller)
+    count_btn=tk.Button(app, textvariable=tk.StringVar(value='重新计数(ALT+D)'), width=10, height=2, command=count_reset)
     proceed_label = tk.Label(app,textvariable=tk.StringVar(value='已进行次数:'),width=15,height=2)
     label = tk.Label(app,textvariable=label_text,width=5,height=2)
 
     label_p = tk.Label(app,textvariable=tk.StringVar(value='按一次ALT+R炼'),width=15,height=2)
-    enrty = tk.Entry(app,width=6)
+    enrty = tk.Entry(app,width=6,textvariable=enrty_text)
     label_a = tk.Label(app,textvariable=tk.StringVar(value='次'),width=3,height=2)
     log_label = tk.Label(app,textvariable=log_str,width=30,height=2)
 
@@ -131,7 +144,7 @@ if __name__=='__main__':
     log_label.grid(row=5,column=1,columnspan = 3)
 
     app.grid_columnconfigure((0, 4), weight=1)
-    init(config)
+    init()
     app.mainloop()
 
 
