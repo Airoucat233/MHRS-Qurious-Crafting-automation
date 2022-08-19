@@ -102,7 +102,7 @@ if __name__=='__main__':
     app = tk.Tk()  # 根窗口的实例(root窗口)
     app.geometry('300x300')
     app.resizable(width=False,height=False)
-    app.title('一键炼金')  # 根窗口标题
+    app.title('一键怪异炼成')  # 根窗口标题
 
     switch_text = tk.StringVar()
     log_str = tk.StringVar()
