@@ -1,0 +1,66 @@
+{
+    "shortcut_keys": {
+        "alt_l+a": {
+            "action": [
+                [
+                    "up",
+                    "up",
+                    "space",
+                    "right",
+                    "space",
+                    "down",
+                    "space",
+                    "space"
+                ]
+            ],
+            "count": true
+        },
+        "alt_l+s": {
+            "action": [
+                [
+                    "left",
+                    "space",
+                    "left",
+                    "space",
+                    "space"
+                ]
+            ]
+        },
+        "alt_l+w": {
+            "action": [
+                [
+                    "space",
+                    "left",
+                    "space",
+                    "space",
+                    "space"
+                ]
+            ]
+        },
+        "shift_r+esc": {
+            "action": "stop"
+        },
+        "alt_l+r": {
+            "action": [
+                [
+                    "up",
+                    "up",
+                    "space",
+                    "right",
+                    "space",
+                    "down",
+                    "space",
+                    "space"
+                ],
+                [
+                    "space",
+                    "left",
+                    "space",
+                    "space",
+                    "space"
+                ]
+            ],
+            "delay": 0.5
+        }
+    }
+}
