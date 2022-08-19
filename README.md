@@ -11,7 +11,7 @@ A tool for Monster Hunter Rise:Sunbreak qurious crafting automation
 - 炼成完成界面不保留炼成结果(默认`alt+d`)
 - 重复完整炼金过程n次(默认`alt+r`),n为界面上输入框输入的数字
 
-##使用源码
+## 使用源码
 
 ### 依赖
     pydirectinput 用于发送按键指令(pyautogui无法在游戏界面生效)
