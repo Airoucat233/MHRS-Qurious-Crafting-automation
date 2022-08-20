@@ -8,14 +8,14 @@ pydirectinput.PAUSE = 0.05
 record_key=[]
 config = {
     "shortcut_keys": {
-        "alt_l+a":{"action":[["up","up","space","right","space","down","space","space"]],"count":True},
+        "alt_l+a":{"action":[["x","space","space"]],"count":True},
         "alt_l+s":{"action":[['left','space','left','space','space']]},
         "alt_l+w":{"action":[['space', 'left', 'space', 'space','space']]},
         "alt_l+d":{"action":"reset"},
         "shift_r+esc":{"action":"stop"},
 
         "alt_l+r":{"action":[
-                ['up', 'up', 'space', 'right', 'space', 'down', 'space', 'space'],['left','space','left','space','space']
+                ['x', 'space', 'space'],['left','space','left','space','space']
             ],"delay":0.4
         }
     }

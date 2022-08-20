@@ -3,12 +3,7 @@
         "alt_l+a": {
             "action": [
                 [
-                    "up",
-                    "up",
-                    "space",
-                    "right",
-                    "space",
-                    "down",
+                    "x",
                     "space",
                     "space"
                 ]
@@ -43,12 +38,7 @@
         "alt_l+r": {
             "action": [
                 [
-                    "up",
-                    "up",
-                    "space",
-                    "right",
-                    "space",
-                    "down",
+                    "x",
                     "space",
                     "space"
                 ],
